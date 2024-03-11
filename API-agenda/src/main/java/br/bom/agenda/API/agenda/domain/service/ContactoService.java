@@ -1,11 +1,13 @@
 package br.bom.agenda.API.agenda.domain.service;
 
 import br.bom.agenda.API.agenda.domain.dto.CadastroDTO;
+import br.bom.agenda.API.agenda.domain.exception.EntidadeNaoEncontradaException;
 import br.bom.agenda.API.agenda.domain.model.Contacto;
 import br.bom.agenda.API.agenda.domain.repository.ContactoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ContactoService {
@@ -23,5 +25,10 @@ public class ContactoService {
     public List<Contacto> listar() {
         return contactoRepository.findAll();
     }
+
+    public Contacto buscar(Long id) {
+        return contactoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(id));
+    }
+
 }
 

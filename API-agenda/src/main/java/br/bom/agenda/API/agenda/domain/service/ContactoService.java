@@ -7,7 +7,6 @@ import br.bom.agenda.API.agenda.domain.repository.ContactoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContactoService {
@@ -20,15 +19,27 @@ public class ContactoService {
 
     public Contacto cadastrar(CadastroDTO dados) {
         Contacto contacto = Contacto.convertToContacto(dados);
-         return contactoRepository.save(contacto);
+        return contactoRepository.save(contacto);
     }
     public List<Contacto> listar() {
         return contactoRepository.findAll();
     }
 
     public Contacto buscar(Long id) {
-        return contactoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(id));
+        return contactoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Contacto não encontrado, verifique e tnte novamente."));
     }
 
+//    public Contacto actualizar (ActualizacaoDTO dados , Long id) {
+//        var contactoActual = contactoRepository.getReferenceById(id);
+//       contactoActual.actualizaCntacto(dados);
+//        return contactoRepository.save();
+//    }
+
+    public void excluir(Long id) {
+        Contacto contacto = buscar(id);
+        if (contacto != null) {
+            contactoRepository.deleteById(contacto.getId());
+        }
+    }
 }
 
